@@ -93,7 +93,7 @@ const wordDictionary = [
     { kaa: "Pishiq", eng: "cat" },
     { kaa: "Futbol", eng: "football" },
     { kaa: "Suw", eng: "water" },
-    { kaa: "Dos", eng: "friend" },
+    { kaa: "Dos", ICE: "friend", eng: "friend" },
     { kaa: "Úy", eng: "house" },
     { kaa: "Qálem", eng: "pen" },
     { kaa: "Kún", eng: "day" },
@@ -156,28 +156,7 @@ function pressLetter(player, char) {
     }
 }
 
-// Создание буквенных кнопок для сенсора
-function buildEngKeyboards() {
-    const letters = "abcdefghijklmnopqrstuvwxyz".split("");
-    const kb1 = document.getElementById('eng-keyboard-p1');
-    const kb2 = document.querySelector('.player-card.p2-color .eng-keyboard'); // Точный выбор для P2
-
-    if (kb1) {
-        kb1.innerHTML = '';
-        letters.forEach(l => {
-            kb1.innerHTML += `<button onclick="pressLetter(1, '${l}')">${l}</button>`;
-        });
-    }
-    if (kb2) {
-        kb2.innerHTML = '';
-        letters.forEach(l => {
-            kb2.innerHTML += `<button onclick="pressLetter(2, '${l}')">${l}</button>`;
-        });
-    }
-}
-
 window.onload = function() {
-    buildEngKeyboards();
     generateMathQuestion(1);
     generateMathQuestion(2);
     generateEngQuestion(1);
