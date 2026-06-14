@@ -1,14 +1,18 @@
 function switchGame(game) {
-    document.getElementById('math-game').classList.add('hidden');
-    document.getElementById('english-game').classList.add('hidden');
-    document.getElementById('cube-game').classList.add('hidden');
+    const mathGame = document.getElementById('math-game');
+    const englishGame = document.getElementById('english-game');
+    const cubeGame = document.getElementById('cube-game');
 
-    if (game === 'math') {
-        document.getElementById('math-game').classList.remove('hidden');
-    } else if (game === 'english') {
-        document.getElementById('english-game').classList.remove('hidden');
-    } else {
-        document.getElementById('cube-game').classList.remove('hidden');
+    if (mathGame) mathGame.classList.add('hidden');
+    if (englishGame) englishGame.classList.add('hidden');
+    if (cubeGame) cubeGame.classList.add('hidden');
+
+    if (game === 'math' && mathGame) {
+        mathGame.classList.remove('hidden');
+    } else if (game === 'english' && englishGame) {
+        englishGame.classList.remove('hidden');
+    } else if (cubeGame) {
+        cubeGame.classList.remove('hidden');
     }
 }
 
@@ -28,24 +32,26 @@ function generateMathQuestion(player) {
 
     if (player === 1) {
         p1MathAnswer = answer;
-        document.getElementById('p1-question').innerText = `${num1} ${sign} ${num2} = ?`;
+        const q1 = document.getElementById('p1-question');
+        if (q1) q1.innerText = `${num1} ${sign} ${num2} = ?`;
     } else {
         p2MathAnswer = answer;
-        document.getElementById('p2-question').innerText = `${num1} ${sign} ${num2} = ?`;
+        const q2 = document.getElementById('p2-question');
+        if (q2) q2.innerText = `${num1} ${sign} ${num2} = ?`;
     }
 }
 
 function checkMathAnswer(player) {
     if (player === 1) {
         let input = document.getElementById('p1-input');
-        if (parseInt(input.value) === p1MathAnswer) {
+        if (input && parseInt(input.value) === p1MathAnswer) {
             mathRopePosition -= 6;
             input.value = '';
             generateMathQuestion(1);
         }
     } else {
         let input = document.getElementById('p2-input');
-        if (parseInt(input.value) === p2MathAnswer) {
+        if (input && parseInt(input.value) === p2MathAnswer) {
             mathRopePosition += 6;
             input.value = '';
             generateMathQuestion(2);
@@ -59,11 +65,9 @@ function checkMathAnswer(player) {
         alert("2-Oyınshı jeńdi! 🎉 (Oń jaq)");
         mathRopePosition = 50;
     }
-    document.getElementById('math-rope-marker').style.left = mathRopePosition + '%';
+    const marker = document.getElementById('math-rope-marker');
+    if (marker) marker.style.left = mathRopePosition + '%';
 }
-
-document.getElementById('p1-input').addEventListener('input', function() { checkMathAnswer(1); });
-document.getElementById('p2-input').addEventListener('input', function() { checkMathAnswer(2); });
 
 // ==========================================
 // LOGIKA 2: ANGLIYSKIY ARQAN TARTIS
@@ -72,7 +76,7 @@ let engRopePosition = 50;
 let p1EngCurrentPair = {};
 let p2EngCurrentPair = {};
 
-// Baza slov: qaraqalpaqsha -> english (Исправлено на Pişik!)
+// Твоя база слов: вернул обратно Pishiq!
 const wordDictionary = [
     { kaa: "Mektep", eng: "school" },
     { kaa: "Kitap", eng: "book" },
@@ -96,24 +100,26 @@ function generateEngQuestion(player) {
 
     if (player === 1) {
         p1EngCurrentPair = wordPair;
-        document.getElementById('p1-eng-word').innerText = wordPair.kaa;
+        const w1 = document.getElementById('p1-eng-word');
+        if (w1) w1.innerText = wordPair.kaa;
     } else {
         p2EngCurrentPair = wordPair;
-        document.getElementById('p2-eng-word').innerText = wordPair.kaa;
+        const w2 = document.getElementById('p2-eng-word');
+        if (w2) w2.innerText = wordPair.kaa;
     }
 }
 
 function checkEngAnswer(player) {
     if (player === 1) {
         let input = document.getElementById('p1-eng-input');
-        if (input.value.toLowerCase().trim() === p1EngCurrentPair.eng) {
+        if (input && input.value.toLowerCase().trim() === p1EngCurrentPair.eng) {
             engRopePosition -= 6;
             input.value = '';
             generateEngQuestion(1);
         }
     } else {
         let input = document.getElementById('p2-eng-input');
-        if (input.value.toLowerCase().trim() === p2EngCurrentPair.eng) {
+        if (input && input.value.toLowerCase().trim() === p2EngCurrentPair.eng) {
             engRopePosition += 6;
             input.value = '';
             generateEngQuestion(2);
@@ -127,13 +133,22 @@ function checkEngAnswer(player) {
         alert("2-Oyınshı jeńdi! 🎉 (Oń jaq)");
         engRopePosition = 50;
     }
-    document.getElementById('eng-rope-marker').style.left = engRopePosition + '%';
+    const engMarker = document.getElementById('eng-rope-marker');
+    if (engMarker) engMarker.style.left = engRopePosition + '%';
 }
 
-document.getElementById('p1-eng-input').addEventListener('input', function() { checkEngAnswer(1); });
-document.getElementById('p2-eng-input').addEventListener('input', function() { checkEngAnswer(2); });
+// Привязка к авто-вводу (работает прямо во время печати)
+const p1MathInp = document.getElementById('p1-input');
+const p2MathInp = document.getElementById('p2-input');
+if (p1MathInp) p1MathInp.addEventListener('input', function() { checkMathAnswer(1); });
+if (p2MathInp) p2MathInp.addEventListener('input', function() { checkMathAnswer(2); });
 
-// Старт всех игр
+const p1EngInp = document.getElementById('p1-eng-input');
+const p2EngInp = document.getElementById('p2-eng-input');
+if (p1EngInp) p1EngInp.addEventListener('input', function() { checkEngAnswer(1); });
+if (p2EngInp) p2EngInp.addEventListener('input', function() { checkEngAnswer(2); });
+
+// Запуск стартовых вопросов при загрузке страницы
 generateMathQuestion(1);
 generateMathQuestion(2);
 generateEngQuestion(1);
