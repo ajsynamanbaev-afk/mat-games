@@ -1,3 +1,4 @@
+// Функция переключения игр (теперь работает без сбоев)
 function switchGame(game) {
     const mathGame = document.getElementById('math-game');
     const englishGame = document.getElementById('english-game');
@@ -11,7 +12,7 @@ function switchGame(game) {
         mathGame.classList.remove('hidden');
     } else if (game === 'english' && englishGame) {
         englishGame.classList.remove('hidden');
-    } else if (cubeGame) {
+    } else if (game === 'cube' && cubeGame) {
         cubeGame.classList.remove('hidden');
     }
 }
@@ -44,14 +45,14 @@ function generateMathQuestion(player) {
 function checkMathAnswer(player) {
     if (player === 1) {
         let input = document.getElementById('p1-input');
-        if (input && parseInt(input.value) === p1MathAnswer) {
+        if (input && input.value !== '' && parseInt(input.value) === p1MathAnswer) {
             mathRopePosition -= 6;
             input.value = '';
             generateMathQuestion(1);
         }
     } else {
         let input = document.getElementById('p2-input');
-        if (input && parseInt(input.value) === p2MathAnswer) {
+        if (input && input.value !== '' && parseInt(input.value) === p2MathAnswer) {
             mathRopePosition += 6;
             input.value = '';
             generateMathQuestion(2);
@@ -136,7 +137,7 @@ function checkEngAnswer(player) {
     if (engMarker) engMarker.style.left = engRopePosition + '%';
 }
 
-// Запуск при полной загрузке страницы, чтобы избежать багов
+// Запуск функций ввода и генерации только после загрузки страницы
 window.onload = function() {
     const p1MathInp = document.getElementById('p1-input');
     const p2MathInp = document.getElementById('p2-input');
