@@ -72,18 +72,22 @@ let engRopePosition = 50;
 let p1EngCurrentPair = {};
 let p2EngCurrentPair = {};
 
-// Baza slov: qaraqalpaqsha -> english
+// Baza slov: qaraqalpaqsha -> english (Исправлено на Pişik!)
 const wordDictionary = [
     { kaa: "Mektep", eng: "school" },
     { kaa: "Kitap", eng: "book" },
     { kaa: "Alma", eng: "apple" },
-    { kaa: "Pişik", eng: "cat" },
+    { kaa: "Pishiq", eng: "cat" },
     { kaa: "Futbol", eng: "football" },
     { kaa: "Suw", eng: "water" },
     { kaa: "Dos", eng: "friend" },
     { kaa: "Úy", eng: "house" },
-    { kaa: "Qalam", eng: "pen" },
-    { kaa: "Kún", eng: "day" }
+    { kaa: "Qálem", eng: "pen" },
+    { kaa: "Kún", eng: "day" },
+    { kaa: "tún", eng: "night" },
+    { kaa: "bay", eng: "rich" },
+    { kaa: "qum", eng: "sand" },
+    { kaa: "aydaw", eng: "drive" }
 ];
 
 function generateEngQuestion(player) {
@@ -102,16 +106,15 @@ function generateEngQuestion(player) {
 function checkEngAnswer(player) {
     if (player === 1) {
         let input = document.getElementById('p1-eng-input');
-        // Переводим в нижний регистр, чтобы "School" и "school" одинаково подходили
         if (input.value.toLowerCase().trim() === p1EngCurrentPair.eng) {
-            engRopePosition -= 6; // Тянет влево
+            engRopePosition -= 6;
             input.value = '';
             generateEngQuestion(1);
         }
     } else {
         let input = document.getElementById('p2-eng-input');
         if (input.value.toLowerCase().trim() === p2EngCurrentPair.eng) {
-            engRopePosition += 6; // Тянет вправо
+            engRopePosition += 6;
             input.value = '';
             generateEngQuestion(2);
         }
