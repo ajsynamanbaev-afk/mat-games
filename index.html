@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="kaa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1-4 klass mektep oqıwshıları ushın</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <h1>1-4 klass mektep oqıwshıları ushın</h1>
+        <nav>
+            <button onclick="switchGame('math')">Arqan tartıs (2 Oyınshı)</button>
+            <button onclick="switchGame('cube')">Kubik Rubigi</button>
+        </nav>
+    </header>
+
+    <main>
+        <!-- OYIN 1: MATEMATIKALIQ ARQAN TARTIS (2 OYINSHI) -->
+        <section id="math-game" class="game-section">
+            <h2>Matematikalıq arqan tartıs oyını</h2>
+            <p>Mısallardı durıs sheshiń ha’m arqandı ózińizge qaray tartıń!</p>
+            
+            <!-- Obshiy arqan -->
+            <div class="rope-container">
+                <div id="rope-line"></div>
+                <div id="rope-marker"></div>
+            </div>
+
+            <!-- Zona dlya dvuh igrokov -->
+            <div class="players-zone">
+                <!-- Oyınshı 1 (Shep jaq) -->
+                <div class="player-card p1-color">
+                    <h3>1-Oyınshı (Shep)</h3>
+                    <div id="p1-question" class="question-text">...</div>
+                    <input type="number" id="p1-input" placeholder="Juwap">
+                    <button onclick="checkPlayerAnswer(1)">Tartıs (A)</button>
+                </div>
+
+                <!-- Oyınshı 2 (On' jaq) -->
+                <div class="player-card p2-color">
+                    <h3>2-Oyınshı (Oń)</h3>
+                    <div id="p2-question" class="question-text">...</div>
+                    <input type="number" id="p2-input" placeholder="Juwap">
+                    <button onclick="checkPlayerAnswer(2)">Tartıs (L)</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- OYIN 2: KUBIK RUBIKA -->
+        <section id="cube-game" class="game-section hidden">
+            <h2>Kubik Rubigin úyreniw</h2>
+            <p>Baslı hámreketlerdi úyren (Algoritm "Pif-Paf")</p>
+            
+            <div class="cube-tutorial">
+                <div class="cube-placeholder">
+                    <div class="cube-face">R</div>
+                    <div class="cube-face">U</div>
+                    <div class="cube-face">R'</div>
+                    <div class="cube-face">U'</div>
+                </div>
+                <div class="instructions">
+                    <h3>1-bánt: Oń jaq algoritmi (Pif-paf)</h3>
+                    <ol>
+                        <li><b>R</b> — Oń jaqtı saat tili baǵıtında bur</li>
+                        <li><b>U</b> — Ústińgi jaqtı saat tili baǵıtında bur</li>
+                        <li><b>R'</b> — Oń jaqtı saat tiline qarsı bur</li>
+                        <li><b>U'</b> — Ústińgi jaqtı saat tiline qarsı bur</li>
+                    </ol>
+                    <p>Bul algoritmdi 6 ret qaytalasańız, kubik óziniń baslapqı qálipine keledi!</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
