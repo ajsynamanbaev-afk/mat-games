@@ -1,4 +1,4 @@
-// Функция переключения игр (теперь работает без сбоев)
+// Функция переключения игр
 function switchGame(game) {
     const mathGame = document.getElementById('math-game');
     const englishGame = document.getElementById('english-game');
@@ -70,6 +70,22 @@ function checkMathAnswer(player) {
     if (marker) marker.style.left = mathRopePosition + '%';
 }
 
+// Обработка кликов по экранным цифрам
+function pressNum(player, char) {
+    let inputId = player === 1 ? 'p1-input' : 'p2-input';
+    let input = document.getElementById(inputId);
+    
+    if (input) {
+        if (char === 'C') {
+            input.value = ''; 
+        } else {
+            input.value += char; 
+        }
+        // Автопроверка ответа сразу при клике на кнопки
+        checkMathAnswer(player);
+    }
+}
+
 // ==========================================
 // LOGIKA 2: ANGLIYSKIY ARQAN TARTIS
 // ==========================================
@@ -137,7 +153,7 @@ function checkEngAnswer(player) {
     if (engMarker) engMarker.style.left = engRopePosition + '%';
 }
 
-// Запуск функций ввода и генерации только после загрузки страницы
+// Запуск функций после полной загрузки страницы
 window.onload = function() {
     const p1MathInp = document.getElementById('p1-input');
     const p2MathInp = document.getElementById('p2-input');
