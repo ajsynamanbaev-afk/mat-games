@@ -18,7 +18,6 @@
     </header>
 
     <main>
-        <!-- OYIN 1: MATEMATIKALIQ ARQAN TARTIS (2 OYINSHI) -->
         <section id="math-game" class="game-section">
             <h2>Matematikalıq arqan tartıs oyını</h2>
             <p>Mısallardı durıs sheshiń ha’m arqandı ózińizge qaray tartıń!</p>
@@ -32,18 +31,59 @@
                 <div class="player-card p1-color">
                     <h3>1-Oyınshı (Shep)</h3>
                     <div id="p1-question" class="question-text">...</div>
-                    <input type="number" id="p1-input" placeholder="Juwap">
+                    <input type="text" id="p1-input" placeholder="Juwap" readonly>
+                    
+                    <div class="math-keyboard">
+                        <button onclick="pressNum(1, '1')">1</button>
+                        <button onclick="pressNum(1, '2')">2</button>
+                        <button onclick="pressNum(1, '3')">3</button>
+                        <button onclick="pressNum(1, '-')">-</button>
+                        
+                        <button onclick="pressNum(1, '4')">4</button>
+                        <button onclick="pressNum(1, '5')">5</button>
+                        <button onclick="pressNum(1, '6')">6</button>
+                        <button onclick="pressNum(1, '+')">+</button>
+                        
+                        <button onclick="pressNum(1, '7')">7</button>
+                        <button onclick="pressNum(1, '8')">8</button>
+                        <button onclick="pressNum(1, '9')">9</button>
+                        <button onclick="pressNum(1, '0')">0</button>
+                    </div>
+                    <div style="margin-top: 10px;">
+                        <button onclick="pressNum(1, 'C')" style="background-color: #d32f2f;">C</button>
+                        <button onclick="checkMathAnswer(1)">Tartıs (A)</button>
+                    </div>
                 </div>
 
                 <div class="player-card p2-color">
                     <h3>2-Oyınshı (Oń)</h3>
                     <div id="p2-question" class="question-text">...</div>
-                    <input type="number" id="p2-input" placeholder="Juwap">
+                    <input type="text" id="p2-input" placeholder="Juwap" readonly>
+                    
+                    <div class="math-keyboard">
+                        <button onclick="pressNum(2, '1')">1</button>
+                        <button onclick="pressNum(2, '2')">2</button>
+                        <button onclick="pressNum(2, '3')">3</button>
+                        <button onclick="pressNum(2, '-')">-</button>
+                        
+                        <button onclick="pressNum(2, '4')">4</button>
+                        <button onclick="pressNum(2, '5')">5</button>
+                        <button onclick="pressNum(2, '6')">6</button>
+                        <button onclick="pressNum(2, '+')">+</button>
+                        
+                        <button onclick="pressNum(2, '7')">7</button>
+                        <button onclick="pressNum(2, '8')">8</button>
+                        <button onclick="pressNum(2, '9')">9</button>
+                        <button onclick="pressNum(2, '0')">0</button>
+                    </div>
+                    <div style="margin-top: 10px;">
+                        <button onclick="pressNum(2, 'C')" style="background-color: #d32f2f;">C</button>
+                        <button onclick="checkMathAnswer(2)">Tartıs (L)</button>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- OYIN 3: ANGLIYSKIY ARQAN TARTIS (2 OYINSHI) -->
         <section id="english-game" class="game-section hidden">
             <h2>Anglichan tili arqan tartıs oyını</h2>
             <p>Qaraqalpaqsha sózdiń anglichansha awdarmasın durıs jazıń!</p>
@@ -58,17 +98,18 @@
                     <h3>1-Oyınshı (Shep)</h3>
                     <div id="p1-eng-word" class="question-text">...</div>
                     <input type="text" id="p1-eng-input" placeholder="English">
+                    <button onclick="checkEngAnswer(1)" style="margin-top:10px;">Tartıs (A)</button>
                 </div>
 
                 <div class="player-card p2-color">
                     <h3>2-Oyınshı (Oń)</h3>
                     <div id="p2-eng-word" class="question-text">...</div>
                     <input type="text" id="p2-eng-input" placeholder="English">
+                    <button onclick="checkEngAnswer(2)" style="margin-top:10px;">Tartıs (L)</button>
                 </div>
             </div>
         </section>
 
-        <!-- OYIN 2: KUBIK RUBIKA -->
         <section id="cube-game" class="game-section hidden">
             <h2>Kubik Rubigin úyreniw</h2>
             <p>Baslı hámreketlerdi úyren (Algoritm "Pif-Paf")</p>
