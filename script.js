@@ -1,4 +1,3 @@
-// Функция переключения игр
 function switchGame(game) {
     const mathGame = document.getElementById('math-game');
     const englishGame = document.getElementById('english-game');
@@ -70,18 +69,12 @@ function checkMathAnswer(player) {
     if (marker) marker.style.left = mathRopePosition + '%';
 }
 
-// Обработка кликов по экранным цифрам
 function pressNum(player, char) {
     let inputId = player === 1 ? 'p1-input' : 'p2-input';
     let input = document.getElementById(inputId);
-    
     if (input) {
-        if (char === 'C') {
-            input.value = ''; 
-        } else {
-            input.value += char; 
-        }
-        // Автопроверка ответа сразу при клике на кнопки
+        if (char === 'C') { input.value = ''; } 
+        else { input.value += char; }
         checkMathAnswer(player);
     }
 }
@@ -153,18 +146,38 @@ function checkEngAnswer(player) {
     if (engMarker) engMarker.style.left = engRopePosition + '%';
 }
 
-// Запуск функций после полной загрузки страницы
+function pressLetter(player, char) {
+    let inputId = player === 1 ? 'p1-eng-input' : 'p2-eng-input';
+    let input = document.getElementById(inputId);
+    if (input) {
+        if (char === 'C') { input.value = ''; } 
+        else { input.value += char.toLowerCase(); }
+        checkEngAnswer(player);
+    }
+}
+
+// Создание буквенных кнопок для сенсора
+function buildEngKeyboards() {
+    const letters = "abcdefghijklmnopqrstuvwxyz".split("");
+    const kb1 = document.getElementById('eng-keyboard-p1');
+    const kb2 = document.querySelector('.player-card.p2-color .eng-keyboard'); // Точный выбор для P2
+
+    if (kb1) {
+        kb1.innerHTML = '';
+        letters.forEach(l => {
+            kb1.innerHTML += `<button onclick="pressLetter(1, '${l}')">${l}</button>`;
+        });
+    }
+    if (kb2) {
+        kb2.innerHTML = '';
+        letters.forEach(l => {
+            kb2.innerHTML += `<button onclick="pressLetter(2, '${l}')">${l}</button>`;
+        });
+    }
+}
+
 window.onload = function() {
-    const p1MathInp = document.getElementById('p1-input');
-    const p2MathInp = document.getElementById('p2-input');
-    if (p1MathInp) p1MathInp.addEventListener('input', function() { checkMathAnswer(1); });
-    if (p2MathInp) p2MathInp.addEventListener('input', function() { checkMathAnswer(2); });
-
-    const p1EngInp = document.getElementById('p1-eng-input');
-    const p2EngInp = document.getElementById('p2-eng-input');
-    if (p1EngInp) p1EngInp.addEventListener('input', function() { checkEngAnswer(1); });
-    if (p2EngInp) p2EngInp.addEventListener('input', function() { checkEngAnswer(2); });
-
+    buildEngKeyboards();
     generateMathQuestion(1);
     generateMathQuestion(2);
     generateEngQuestion(1);
