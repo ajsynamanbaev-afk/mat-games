@@ -54,7 +54,7 @@ button:hover {
     background: #d2b48c;
 }
 
-/* Маркер каната (теперь работает для всех игр) */
+/* Маркер каната (универсальный класс) */
 .rope-marker {
     position: absolute;
     top: 5px;
@@ -110,6 +110,31 @@ input {
     margin-right: auto;
     background-color: #fff;
     color: #000;
+}
+
+/* Сетка для экранной клавиатуры (1 2 3 - и т.д.) */
+.math-keyboard {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    max-width: 240px;
+    margin: 15px auto 0 auto;
+}
+
+.math-keyboard button {
+    padding: 12px;
+    font-size: 18px;
+    font-weight: bold;
+    background-color: #3b3b4f;
+    border: 1px solid #555;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 0;
+}
+
+.math-keyboard button:hover {
+    background-color: #4a4a6a;
 }
 
 /* Обучение Кубику Рубика */
