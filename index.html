@@ -3,15 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>1-4 klass mektep oqıwshıları ushın</title>
+    <title>Matematikalıq Arqan Tartıs ha’m Kubik Rubigi</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
     <header>
-        <h1>1-4 klass mektep oqıwshıları ushın</h1>
+        <h1>Matematikalıq Arqan Tartıs ha’m Kubik Rubigi</h1>
         <nav>
-            <button onclick="switchGame('math')">Arqan tartıs (2 Oyınshı)</button>
+            <button onclick="switchGame('math')">Arqan tartıs (Matematika)</button>
+            <button onclick="switchGame('english')">Arqan tartıs (English)</button>
             <button onclick="switchGame('cube')">Kubik Rubigi</button>
         </nav>
     </header>
@@ -22,28 +23,48 @@
             <h2>Matematikalıq arqan tartıs oyını</h2>
             <p>Mısallardı durıs sheshiń ha’m arqandı ózińizge qaray tartıń!</p>
             
-            <!-- Obshiy arqan -->
             <div class="rope-container">
-                <div id="rope-line"></div>
-                <div id="rope-marker"></div>
+                <div class="rope-line"></div>
+                <div id="math-rope-marker" class="rope-marker"></div>
             </div>
 
-            <!-- Zona dlya dvuh igrokov -->
             <div class="players-zone">
-                <!-- Oyınshı 1 (Shep jaq) -->
                 <div class="player-card p1-color">
                     <h3>1-Oyınshı (Shep)</h3>
                     <div id="p1-question" class="question-text">...</div>
                     <input type="number" id="p1-input" placeholder="Juwap">
-                    <button onclick="checkPlayerAnswer(1)">Tartıs (A)</button>
                 </div>
 
-                <!-- Oyınshı 2 (On' jaq) -->
                 <div class="player-card p2-color">
                     <h3>2-Oyınshı (Oń)</h3>
                     <div id="p2-question" class="question-text">...</div>
                     <input type="number" id="p2-input" placeholder="Juwap">
-                    <button onclick="checkPlayerAnswer(2)">Tartıs (L)</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- OYIN 3: ANGLIYSKIY ARQAN TARTIS (2 OYINSHI) -->
+        <section id="english-game" class="game-section hidden">
+            <h2>Anglichan tili arqan tartıs oyını</h2>
+            <p>Qaraqalpaqsha sózdiń anglichanbassa tırnaǵısın (awdarmasın) durıs jazıń!</p>
+            
+            <div class="rope-container">
+                <div class="rope-line"></div>
+                <div id="eng-rope-marker" class="rope-marker"></div>
+            </div>
+
+            <div class="players-zone">
+                <div class="player-card p1-color">
+                    <h3>1-Oyınshı (Shep)</h3>
+                    <div id="p1-eng-word" class="question-text">...</div>
+                    <!-- type="text" вместо number, чтобы писать английские слова -->
+                    <input type="text" id="p1-eng-input" placeholder="English">
+                </div>
+
+                <div class="player-card p2-color">
+                    <h3>2-Oyınshı (Oń)</h3>
+                    <div id="p2-eng-word" class="question-text">...</div>
+                    <input type="text" id="p2-eng-input" placeholder="English">
                 </div>
             </div>
         </section>
