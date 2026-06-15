@@ -130,7 +130,7 @@ function pressLetter(player, char) {
 }
 
 // ==========================================
-// LOGIKA 3: KOSMOSLIQ ATIS (ПОЛНЫЙ АВТОБОЙ)
+// LOGIKA 3: KOSMOSLIQ ATIS (ВЫСТРЕЛ ВАЗ РАЗ В СЕКУНДУ)
 // ==========================================
 let canvas, ctx;
 let gameRunning = false;
@@ -147,9 +147,8 @@ let decorAsteroids = [];
 let stars = [];
 let particles = [];
 
-// Таймеры для бесконечной автоматической стрельбы
 let lastPlayerShot = 0;
-const PLAYER_SHOT_DELAY = 250; // Интервал стрельбы (250 мс)
+const PLAYER_SHOT_DELAY = 250; 
 
 function initSpaceEngine() {
     canvas = document.getElementById('spaceCanvas');
@@ -203,7 +202,7 @@ function initSpaceEngine() {
 function handleKeyDown(e) {
     keys[e.code] = true; 
     if(e.code === 'Space' && gameRunning) {
-        e.preventDefault(); // Больше пробел не нужен для стрельбы, но предотвращаем прокрутку страницы
+        e.preventDefault(); 
     }
 }
 function handleKeyUp(e) { keys[e.code] = false; }
@@ -236,7 +235,7 @@ function spawnEnemyWave() {
             dir: 1,
             pulse: Math.random() * 5,
             speed: 1.1 + wave * 0.1, 
-            lastShot: Date.now() + Math.random() * 1500,
+            lastShot: Date.now() + Math.random() * 500, // Сбалансированный первый выстрел при появлении
             isArrived: false
         });
     }
@@ -269,7 +268,6 @@ function gameLoop() {
 }
 
 function updateSpaceGame() {
-    // Управление передвижением (ПК)
     if (keys['KeyW'] || keys['ArrowUp']) playerShip.y -= playerShip.speed;
     if (keys['KeyS'] || keys['ArrowDown']) playerShip.y += playerShip.speed;
     if (keys['KeyA'] || keys['ArrowLeft']) playerShip.x -= playerShip.speed;
@@ -280,7 +278,6 @@ function updateSpaceGame() {
     if (playerShip.y < 0) playerShip.y = 0;
     if (playerShip.y > canvas.height - playerShip.h) playerShip.y = canvas.height - playerShip.h;
 
-    // ПОЛНАЯ АВТОСТРЕЛЬБА: Стреляет всегда, когда запущена игра
     let now = Date.now();
     if (now - lastPlayerShot > PLAYER_SHOT_DELAY) {
         firePlayerBullet();
@@ -331,11 +328,20 @@ function updateSpaceGame() {
             
             if (enemy.x > canvas.width - enemy.w || enemy.x < 0) {
                 enemy.dir *= -1;
-                enemy.y += 6;
+                enemy.y += 10;
+                if (enemy.x < 0) enemy.x = 0;
+                if (enemy.x > canvas.width - enemy.w) enemy.x = canvas.width - enemy.w;
             }
         }
 
-        if (enemy.y > 0 && now - enemy.lastShot > 1600) {
+        if (enemy.y > canvas.height - 120) {
+            enemy.y = 40 + Math.random() * 60; 
+            enemy.targetY = enemy.y;
+            enemy.isArrived = true;
+        }
+
+        // ИЗМЕНЕНИЕ ТУТ: Каждый выживший пришелец стреляет ровно 1 раз в 1 секунду (1000 мс)
+        if (enemy.y > 0 && now - enemy.lastShot > 1000) {
             enemyBullets.push({ 
                 x: enemy.x + enemy.w/2 - 2, 
                 y: enemy.y + enemy.h, 
