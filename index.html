@@ -14,10 +14,12 @@
             <button onclick="switchGame('math')">Arqan tartıs (Matematika)</button>
             <button onclick="switchGame('english')">Arqan tartıs (English)</button>
             <button onclick="switchGame('cube')">Kubik Rubigi</button>
+            <button onclick="switchGame('space')">Kosmos Oyını (Шутер)</button>
         </nav>
     </header>
 
     <main>
+        <!-- OYIN 1: MATEMATIKALIQ ARQAN TARTIS -->
         <section id="math-game" class="game-section">
             <h2>Matematikalıq arqan tartıs oyını</h2>
             <p>Mısallardı durıs sheshiń ha’m arqandı ózińizge qaray tartıń!</p>
@@ -84,6 +86,7 @@
             </div>
         </section>
 
+        <!-- OYIN 2: ANGLIYSKIY ARQAN TARTIS -->
         <section id="english-game" class="game-section hidden">
             <h2>Anglichan tili arqan tartıs oyını</h2>
             <p>Qaraqalpaqsha sózdiń anglichansha awdarmasın durıs jazıń!</p>
@@ -98,11 +101,9 @@
                     <h3>1-Oyınshı (Shep)</h3>
                     <div id="p1-eng-word" class="question-text">...</div>
                     <input type="text" id="p1-eng-input" placeholder="English" readonly>
-                    
                     <div class="eng-keyboard">
                         <button onclick="pressLetter(1, 'a')">a</button><button onclick="pressLetter(1, 'b')">b</button><button onclick="pressLetter(1, 'c')">c</button><button onclick="pressLetter(1, 'd')">d</button><button onclick="pressLetter(1, 'e')">e</button><button onclick="pressLetter(1, 'f')">f</button><button onclick="pressLetter(1, 'g')">g</button><button onclick="pressLetter(1, 'h')">h</button><button onclick="pressLetter(1, 'i')">i</button><button onclick="pressLetter(1, 'j')">j</button><button onclick="pressLetter(1, 'k')">k</button><button onclick="pressLetter(1, 'l')">l</button><button onclick="pressLetter(1, 'm')">m</button><button onclick="pressLetter(1, 'n')">n</button><button onclick="pressLetter(1, 'o')">o</button><button onclick="pressLetter(1, 'p')">p</button><button onclick="pressLetter(1, 'q')">q</button><button onclick="pressLetter(1, 'r')">r</button><button onclick="pressLetter(1, 's')">s</button><button onclick="pressLetter(1, 't')">t</button><button onclick="pressLetter(1, 'u')">u</button><button onclick="pressLetter(1, 'v')">v</button><button onclick="pressLetter(1, 'w')">w</button><button onclick="pressLetter(1, 'x')">x</button><button onclick="pressLetter(1, 'y')">y</button><button onclick="pressLetter(1, 'z')">z</button>
                     </div>
-                    
                     <div style="margin-top: 10px;">
                         <button onclick="pressLetter(1, 'C')" style="background-color: #d32f2f;">C</button>
                         <button onclick="checkEngAnswer(1)">Tartıs (A)</button>
@@ -113,11 +114,9 @@
                     <h3>2-Oyınshı (Oń)</h3>
                     <div id="p2-eng-word" class="question-text">...</div>
                     <input type="text" id="p2-eng-input" placeholder="English" readonly>
-                    
                     <div class="eng-keyboard">
                         <button onclick="pressLetter(2, 'a')">a</button><button onclick="pressLetter(2, 'b')">b</button><button onclick="pressLetter(2, 'c')">c</button><button onclick="pressLetter(2, 'd')">d</button><button onclick="pressLetter(2, 'e')">e</button><button onclick="pressLetter(2, 'f')">f</button><button onclick="pressLetter(2, 'g')">g</button><button onclick="pressLetter(2, 'h')">h</button><button onclick="pressLetter(2, 'i')">i</button><button onclick="pressLetter(2, 'j')">j</button><button onclick="pressLetter(2, 'k')">k</button><button onclick="pressLetter(2, 'l')">l</button><button onclick="pressLetter(2, 'm')">m</button><button onclick="pressLetter(2, 'n')">n</button><button onclick="pressLetter(2, 'o')">o</button><button onclick="pressLetter(2, 'p')">p</button><button onclick="pressLetter(2, 'q')">q</button><button onclick="pressLetter(2, 'r')">r</button><button onclick="pressLetter(2, 's')">s</button><button onclick="pressLetter(2, 't')">t</button><button onclick="pressLetter(2, 'u')">u</button><button onclick="pressLetter(2, 'v')">v</button><button onclick="pressLetter(2, 'w')">w</button><button onclick="pressLetter(2, 'x')">x</button><button onclick="pressLetter(2, 'y')">y</button><button onclick="pressLetter(2, 'z')">z</button>
                     </div>
-                    
                     <div style="margin-top: 10px;">
                         <button onclick="pressLetter(2, 'C')" style="background-color: #d32f2f;">C</button>
                         <button onclick="checkEngAnswer(2)">Tartıs (L)</button>
@@ -126,10 +125,10 @@
             </div>
         </section>
 
+        <!-- OYIN 3: KUBIK RUBIKA -->
         <section id="cube-game" class="game-section hidden">
             <h2>Kubik Rubigin úyreniw</h2>
             <p>Baslı hámreketlerdi úyren (Algoritm "Pif-Paf")</p>
-            
             <div class="cube-tutorial">
                 <div class="cube-placeholder">
                     <div class="cube-face">R</div>
@@ -148,6 +147,16 @@
                     <p>Bul algoritmdi 6 ret qaytalasańız, kubik óziniń baslapqı qálipine keledi!</p>
                 </div>
             </div>
+        </section>
+
+        <!-- OYIN 4: SPACE SHOOTER (NEW) -->
+        <section id="space-game" class="game-section hidden">
+            <h2>Kosmoslıq Atıs Oyını</h2>
+            <p>ПК: WASD / Стрелочки — қозғалыс, Пробел — ату. Сенсор: Саусақпен басқару.</p>
+            <div style="margin-bottom: 10px;">
+                <button onclick="startSpaceGame()" style="background-color: #ff9f43;">Oyındı baslaw</button>
+            </div>
+            <canvas id="spaceCanvas" width="600" height="400"></canvas>
         </section>
     </main>
 
