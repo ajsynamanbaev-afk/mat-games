@@ -177,3 +177,15 @@ input {
     max-width: 500px;
     margin: 0 auto;
 }
+
+/* Стили для космической игры */
+#spaceCanvas {
+    background-color: #0b0b16;
+    border: 3px solid #ff9f43;
+    border-radius: 8px;
+    display: block;
+    margin: 20px auto;
+    max-width: 100%;
+    box-shadow: 0 0 20px rgba(255, 159, 67, 0.3);
+    touch-action: none; /* Отключает стандартный скролл экрана пальцем при игре */
+}
