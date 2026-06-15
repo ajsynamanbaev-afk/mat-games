@@ -130,7 +130,7 @@ function pressLetter(player, char) {
 }
 
 // ==========================================
-// LOGIKA 3: KOSMOSLIQ ATIS (БЕЗ ЗАВИСАНИЙ)
+// LOGIKA 3: KOSMOSLIQ ATIS (ПОЛНЫЙ АВТОБОЙ)
 // ==========================================
 let canvas, ctx;
 let gameRunning = false;
@@ -147,9 +147,9 @@ let decorAsteroids = [];
 let stars = [];
 let particles = [];
 
-// Таймеры для стабильной автострельбы
+// Таймеры для бесконечной автоматической стрельбы
 let lastPlayerShot = 0;
-const PLAYER_SHOT_DELAY = 300; // Выстрел каждые 300 мс
+const PLAYER_SHOT_DELAY = 250; // Интервал стрельбы (250 мс)
 
 function initSpaceEngine() {
     canvas = document.getElementById('spaceCanvas');
@@ -203,12 +203,7 @@ function initSpaceEngine() {
 function handleKeyDown(e) {
     keys[e.code] = true; 
     if(e.code === 'Space' && gameRunning) {
-        e.preventDefault();
-        let now = Date.now();
-        if (now - lastPlayerShot > PLAYER_SHOT_DELAY) {
-            firePlayerBullet();
-            lastPlayerShot = now;
-        }
+        e.preventDefault(); // Больше пробел не нужен для стрельбы, но предотвращаем прокрутку страницы
     }
 }
 function handleKeyUp(e) { keys[e.code] = false; }
@@ -274,6 +269,7 @@ function gameLoop() {
 }
 
 function updateSpaceGame() {
+    // Управление передвижением (ПК)
     if (keys['KeyW'] || keys['ArrowUp']) playerShip.y -= playerShip.speed;
     if (keys['KeyS'] || keys['ArrowDown']) playerShip.y += playerShip.speed;
     if (keys['KeyA'] || keys['ArrowLeft']) playerShip.x -= playerShip.speed;
@@ -284,13 +280,11 @@ function updateSpaceGame() {
     if (playerShip.y < 0) playerShip.y = 0;
     if (playerShip.y > canvas.height - playerShip.h) playerShip.y = canvas.height - playerShip.h;
 
-    // Стабильная автострельба для сенсора БЕЗ зависаний
-    if ('ontouchstart' in window) {
-        let now = Date.now();
-        if (now - lastPlayerShot > PLAYER_SHOT_DELAY) {
-            firePlayerBullet();
-            lastPlayerShot = now;
-        }
+    // ПОЛНАЯ АВТОСТРЕЛЬБА: Стреляет всегда, когда запущена игра
+    let now = Date.now();
+    if (now - lastPlayerShot > PLAYER_SHOT_DELAY) {
+        firePlayerBullet();
+        lastPlayerShot = now;
     }
 
     stars.forEach(star => {
@@ -322,7 +316,6 @@ function updateSpaceGame() {
         if (playerBullets[i].y < 0) playerBullets.splice(i, 1);
     }
 
-    let now = Date.now();
     for (let eIdx = enemies.length - 1; eIdx >= 0; eIdx--) {
         let enemy = enemies[eIdx];
 
