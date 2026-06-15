@@ -138,25 +138,24 @@ let score = 0;
 let lives = 3;
 let wave = 1;
 
-let playerShip = { x: 285, y: 330, w: 30, h: 30, speed: 5 };
+let playerShip = { x: 285, y: 330, w: 32, h: 36, speed: 5 };
 let keys = {};
 let playerBullets = [];
 let enemyBullets = [];
 let enemies = [];
 let decorAsteroids = [];
+let stars = [];
 
 function initSpaceEngine() {
     canvas = document.getElementById('spaceCanvas');
     if (!canvas) return;
     ctx = canvas.getContext('2d');
 
-    // Настройка управления ПК
     window.removeEventListener('keydown', handleKeyDown);
     window.removeEventListener('keyup', handleKeyUp);
     window.addEventListener('keydown', handleKeyDown);
     window.addEventListener('keyup', handleKeyUp);
 
-    // Настройка управления Сенсором
     canvas.ontouchmove = function(e) {
         if (!gameRunning) return;
         let rect = canvas.getBoundingClientRect();
@@ -170,9 +169,23 @@ function initSpaceEngine() {
         if (playerShip.y > canvas.height - playerShip.h) playerShip.y = canvas.height - playerShip.h;
     };
 
+    // Генерируем звёздное небо на фоне
+    if (stars.length === 0) {
+        for(let i=0; i<40; i++) {
+            stars.push({ x: Math.random()*canvas.width, y: Math.random()*canvas.height, size: Math.random()*2, speed: Math.random()*1 + 0.5 });
+        }
+    }
+
+    // Декоративные рельефные астероиды (как на картинке, без урона)
     if (decorAsteroids.length === 0) {
         for(let i=0; i<8; i++) {
-            decorAsteroids.push({ x: Math.random()*canvas.width, y: Math.random()*canvas.height, size: Math.random()*20+10, speed: Math.random()*0.5+0.2 });
+            decorAsteroids.push({ 
+                x: Math.random()*canvas.width, 
+                y: Math.random()*canvas.height, 
+                size: Math.random()*25+15, 
+                speed: Math.random()*0.4+0.2,
+                seed: Math.random() * 100 // Чтобы кратеры рисовались всегда одинаково
+            });
         }
     }
     drawBackgroundMenu();
@@ -202,22 +215,22 @@ function startSpaceGame() {
 
 function spawnEnemyWave() {
     enemies = [];
-    let count = wave + 2;
+    let count = Math.min(wave + 2, 8); 
     for(let i = 0; i < count; i++) {
         enemies.push({
             x: 50 + (i * (canvas.width / (count + 1))),
             y: 50,
-            w: 25,
-            h: 25,
+            w: 32,
+            h: 24,
             dir: 1,
-            speed: 1 + wave * 0.2,
-            lastShot: Date.now() + Math.random() * 2000
+            speed: 1 + wave * 0.15, 
+            lastShot: Date.now() + Math.random() * 1000
         });
     }
 }
 
 function firePlayerBullet() {
-    playerBullets.push({ x: playerShip.x + playerShip.w/2 - 2, y: playerShip.y, w: 4, h: 10, speed: 7 });
+    playerBullets.push({ x: playerShip.x + playerShip.w/2 - 2, y: playerShip.y, w: 4, h: 14, speed: 8 });
 }
 
 function gameLoop() {
@@ -243,9 +256,16 @@ function updateSpaceGame() {
         firePlayerBullet();
     }
 
+    // Движение звезд
+    stars.forEach(star => {
+        star.y += star.speed;
+        if (star.y > canvas.height) star.y = 0;
+    });
+
+    // Движение астероидов фоновых
     decorAsteroids.forEach(ast => {
         ast.y += ast.speed;
-        if(ast.y > canvas.height) { ast.y = -20; ast.x = Math.random()*canvas.width; }
+        if(ast.y > canvas.height) { ast.y = -30; ast.x = Math.random()*canvas.width; }
     });
 
     playerBullets.forEach((b, index) => {
@@ -260,8 +280,9 @@ function updateSpaceGame() {
             enemy.y += 12;
         }
 
-        if (Date.now() - enemy.lastShot > 3000) {
-            enemyBullets.push({ x: enemy.x + enemy.w/2 - 2, y: enemy.y + enemy.h, w: 4, h: 8, speed: 2.5 });
+        // Выстрелы каждые 1.5 секунды
+        if (Date.now() - enemy.lastShot > 1500) {
+            enemyBullets.push({ x: enemy.x + enemy.w/2 - 2, y: enemy.y + enemy.h, w: 4, h: 10, speed: 2.5 + wave * 0.05 });
             enemy.lastShot = Date.now();
         }
 
@@ -296,47 +317,126 @@ function updateSpaceGame() {
 }
 
 function renderSpaceGame() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    // Чистим космос глубоким темно-синим цветом
+    ctx.fillStyle = "#0c0c1e";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    ctx.fillStyle = "#574b44";
+    // 1. Текстура звездного неба
+    ctx.fillStyle = "rgba(255, 255, 255, 0.8)";
+    stars.forEach(star => {
+        ctx.fillRect(star.x, star.y, star.size, star.size);
+    });
+
+    // 2. Текстура фоновых астероидов (с рельефом и кратерами)
     decorAsteroids.forEach(ast => {
+        ctx.fillStyle = "#6d594f"; // Основной цвет камня
         ctx.beginPath();
         ctx.arc(ast.x, ast.y, ast.size / 2, 0, Math.PI * 2);
         ctx.fill();
+
+        // Рисуем кратеры для реалистичности текстуры
+        ctx.fillStyle = "#4a3b34"; // Тень кратера
+        let offset = ast.size / 4;
+        ctx.beginPath();
+        ctx.arc(ast.x - offset/2, ast.y - offset/2, offset/2, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.arc(ast.x + offset, ast.y + offset/2, offset/3, 0, Math.PI * 2);
+        ctx.fill();
     });
 
+    // 3. Текстура Игрока (Красивый синий неоновый космолет с крыльями и соплом)
+    let px = playerShip.x;
+    let py = playerShip.y;
+    let pw = playerShip.w;
+    let ph = playerShip.h;
+
+    // Двигатели (огонь сзади)
+    ctx.fillStyle = Math.random() > 0.5 ? "#ff9f43" : "#ff3838";
+    ctx.fillRect(px + pw/2 - 4, py + ph, 8, 6);
+
+    // Крылья
+    ctx.fillStyle = "#00a8ff"; 
+    ctx.beginPath();
+    ctx.moveTo(px, py + ph);
+    ctx.lineTo(px + pw/2, py + ph/3);
+    ctx.lineTo(px + pw, py + ph);
+    ctx.fill();
+
+    // Корпус
     ctx.fillStyle = "#00d2d3";
     ctx.beginPath();
-    ctx.moveTo(playerShip.x + playerShip.w / 2, playerShip.y);
-    ctx.lineTo(playerShip.x, playerShip.y + playerShip.h);
-    ctx.lineTo(playerShip.x + playerShip.w, playerShip.y + playerShip.h);
+    ctx.moveTo(px + pw/2, py);
+    ctx.lineTo(px + pw/2 - 7, py + ph - 4);
+    ctx.lineTo(px + pw/2 + 7, py + ph - 4);
     ctx.closePath();
     ctx.fill();
 
-    ctx.fillStyle = "#ff6b6b";
+    // Кабина пилота
+    ctx.fillStyle = "#eccc68";
+    ctx.beginPath();
+    ctx.arc(px + pw/2, py + ph/2, 3, 0, Math.PI*2);
+    ctx.fill();
+
+    // 4. Текстура Врагов (Инопланетные красные тарелки UFO)
     enemies.forEach(enemy => {
-        ctx.fillRect(enemy.x, enemy.y, enemy.w, enemy.h);
+        let ex = enemy.x;
+        let ey = enemy.y;
+        let ew = enemy.w;
+        let eh = enemy.h;
+
+        // Нижняя тарелка
+        ctx.fillStyle = "#ff4d4d";
+        ctx.beginPath();
+        ctx.ellipse(ex + ew/2, ey + eh/2 + 2, ew/2, eh/3, 0, 0, Math.PI*2);
+        ctx.fill();
+
+        // Верхний купол кабины пришельца
+        ctx.fillStyle = "#ffaf40";
+        ctx.beginPath();
+        ctx.arc(ex + ew/2, ey + eh/2 - 1, ew/4, Math.PI, 0);
+        ctx.fill();
+
+        // Светящиеся зеленые огоньки на тарелке
+        ctx.fillStyle = "#32ff7e";
+        ctx.fillRect(ex + ew/4, ey + eh/2 + 1, 3, 3);
+        ctx.fillRect(ex + ew/2 - 1, ey + eh/2 + 2, 3, 3);
+        ctx.fillRect(ex + ew*0.75 - 3, ey + eh/2 + 1, 3, 3);
     });
 
-    ctx.fillStyle = "#1dd1a1";
+    // 5. Текстура лазеров игрока (Зеленые светящиеся пули)
+    ctx.fillStyle = "#2ed573";
+    ctx.shadowBlur = 10;
+    ctx.shadowColor = "#2ed573"; // Эффект свечения
     playerBullets.forEach(b => { ctx.fillRect(b.x, b.y, b.w, b.h); });
+    ctx.shadowBlur = 0; // Сбрасываем свечение, чтобы не тормозило
 
-    ctx.fillStyle = "#feca57";
+    // 6. Текстура лазеров врагов (Желтые заряды плазмы)
+    ctx.fillStyle = "#ffa502";
+    ctx.shadowBlur = 10;
+    ctx.shadowColor = "#ffa502";
     enemyBullets.forEach(eb => { ctx.fillRect(eb.x, eb.y, eb.w, eb.h); });
+    ctx.shadowBlur = 0;
 
+    // 7. Интерфейс сверху
     ctx.fillStyle = "#fff";
-    ctx.font = "14px sans-serif";
-    ctx.fillText("SCORE: " + score, 15, 25);
-    ctx.fillText("WAVE: " + wave, canvas.width / 2 - 30, 25);
-    ctx.fillText("LIVES: " + "❤️".repeat(lives), canvas.width - 100, 25);
+    ctx.font = "bold 14px sans-serif";
+    ctx.fillText("SCORE: " + String(score).padStart(5, '0'), 15, 25);
+    ctx.fillText("WAVE: " + String(wave).padStart(2, '0'), canvas.width / 2 - 35, 25);
+    ctx.fillText("LIVES: " + "❤️".repeat(lives), canvas.width - 110, 25);
 }
 
 function drawBackgroundMenu() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = "rgba(11, 11, 22, 0.9)";
+    ctx.fillStyle = "#0c0c1e";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
+    
+    // Рисуем немного звезд в меню
+    ctx.fillStyle = "#fff";
+    for(let i=0; i<15; i++) ctx.fillRect(Math.sin(i)*canvas.width/2 + canvas.width/2, Math.cos(i)*canvas.height/2 + canvas.height/2, 2, 2);
+
     ctx.fillStyle = "#ff9f43";
-    ctx.font = "18px sans-serif";
+    ctx.font = "bold 18px sans-serif";
     ctx.textAlign = "center";
     ctx.fillText("Alǵa, qáhárman! Baslaw ushın tuymeni basıń", canvas.width / 2, canvas.height / 2);
     ctx.textAlign = "left";
